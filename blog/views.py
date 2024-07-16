@@ -14,7 +14,7 @@ class Blog(generics.ListAPIView):
 
 class Post(generics.CreateAPIView):
     authentication_classes = [JWTAuthentication]
-    permissions = [permissions.IsAuthenticated]
+    permission_classes = [permissions.IsAuthenticated]
     serializer_class = PostsSerializer
     queryset = PostsModel.objects.all()
     parser_classes = [FormParser, MultiPartParser]
@@ -25,9 +25,9 @@ class ViewPost(generics.RetrieveAPIView):
     serializer_class = PostsSerializer
     queryset = PostsModel.objects.all()
 
-class UpdatePost(generics.RetrieveUpdateAPIView):
+class UpdatePost(generics.UpdateAPIView):
     authentication_classes = [JWTAuthentication]
-    permissions = [permissions.IsAuthenticated]
+    permission_classes = [permissions.IsAuthenticated]
     serializer_class = PostsSerializer
     queryset = PostsModel.objects.all()
     def get_object(self):
@@ -38,9 +38,9 @@ class UpdatePost(generics.RetrieveUpdateAPIView):
     def perform_create(self, serializer):
         return serializer.save(created_by=self.request.user)
 
-class DeletePost(generics.RetrieveDestroyAPIView):
+class DeletePost(generics.DestroyAPIView):
     authentication_classes = [JWTAuthentication]
-    permissions = [permissions.IsAuthenticated]
+    permission_classes = [permissions.IsAuthenticated]
     serializer_class = PostsSerializer
     queryset = PostsModel.objects.all()
     def get_object(self):
